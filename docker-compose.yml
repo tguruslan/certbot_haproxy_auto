@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  haproxy:
+    build: ./proxy
+    image: tguruslan/certbot_haproxy_auto
+    environment:
+      LETSENCRYPT_EMAIL: mail@example.com
+      LETSENCRYPT_DOMAIN: example.com
+    ports:
+      - 80:80
+      - 443:443
+    restart: always
+    volumes:
+      - ./config:/etc/haproxy
+      - cert:/etc/letsencrypt/archive
+    networks:
+      haproxy:
+
+networks:
+  haproxy:
+    driver: bridge
+
+volumes:
+  cert:
